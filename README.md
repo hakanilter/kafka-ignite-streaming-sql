@@ -67,7 +67,8 @@ The example runs 3 different aggregation queries:
     FROM NetworkSignalEntity 
     GROUP BY deviceId 
     ORDER BY rxTotal DESC, txTotal DESC 
-    LIMIT 5```
+    LIMIT 5
+    ```
     
     Example output:
     
@@ -77,7 +78,8 @@ The example runs 3 different aggregation queries:
     [48e44f41-6c2c-422a-b69f-3c03f701793f, 12188, 11832]
     [a3dd65b4-0b90-4241-87fb-0c7e255adc61, 10542, 9704]
     [5dfc2df9-5103-4c0e-b41e-dd23fd9dcd07, 10460, 10010]
-    ``` 
+    ```
+     
 - **Total consumed download and upload data by network types**
 
     ```
