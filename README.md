@@ -16,6 +16,7 @@ Before running the example you may want to prepare Apache Kafka installation and
 instructions below:
 
 **Download and extract Apache Kafka**
+
 ```
 wget http://mirror.vorboss.net/apache/kafka/1.0.0/kafka_2.11-1.0.0.tgz
 tar xvf kafka_2.11-1.0.0.tgz
@@ -23,16 +24,19 @@ cd kafka_2.11-1.0.0
 ```
 
 **Start Zookeeper**
+
 ```
 bin/zookeeper-server-start.sh config/zookeeper.properties
 ```
 
 **Start Kafka**
+
 ```
 bin/kafka-server-start.sh config/server.properties
 ```
 
 **Create the topic** 
+
 ```
 bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic network-data --partitions 4 --replication-factor 1
 ```
@@ -56,9 +60,14 @@ Here is some example of randomly generated json data:
 
 The example runs 3 different aggregation queries:
 
-- Top 5 most data consuming devices
+- **Top 5 most data consuming devices**
 
-    ```SELECT deviceId, SUM(rxData) AS rxTotal, SUM(txData) AS txTOTAL FROM NetworkSignalEntity GROUP BY deviceId ORDER BY rxTotal DESC, txTotal DESC LIMIT 5```
+    ```
+    SELECT deviceId, SUM(rxData) AS rxTotal, SUM(txData) AS txTOTAL 
+    FROM NetworkSignalEntity 
+    GROUP BY deviceId 
+    ORDER BY rxTotal DESC, txTotal DESC 
+    LIMIT 5```
     
     Example output:
     
@@ -69,9 +78,13 @@ The example runs 3 different aggregation queries:
     [a3dd65b4-0b90-4241-87fb-0c7e255adc61, 10542, 9704]
     [5dfc2df9-5103-4c0e-b41e-dd23fd9dcd07, 10460, 10010]
     ``` 
-- Total consumed download and upload data by network types
+- **Total consumed download and upload data by network types**
 
-    ```SELECT networkType, SUM(rxData) AS rxTotal, SUM(txData) AS txTotal FROM NetworkSignalEntity GROUP BY networkType```
+    ```
+    SELECT networkType, SUM(rxData) AS rxTotal, SUM(txData) AS txTotal 
+    FROM NetworkSignalEntity 
+    GROUP BY networkType
+    ```
 
     Example output:
     
@@ -80,9 +93,13 @@ The example runs 3 different aggregation queries:
     [wifi, 272411, 275334]
     ```
 
-- Average download and upload speeds by network types
+- **Average download and upload speeds by network types**
 
-    ```SELECT networkType, AVG(rxSpeed) AS avgRxSpeed, AVG(txSpeed) AS avgTxSpeed FROM NetworkSignalEntity GROUP BY networkType```    
+    ```
+    SELECT networkType, AVG(rxSpeed) AS avgRxSpeed, AVG(txSpeed) AS avgTxSpeed 
+    FROM NetworkSignalEntity 
+    GROUP BY networkType
+    ```    
     
     Example output:
     
