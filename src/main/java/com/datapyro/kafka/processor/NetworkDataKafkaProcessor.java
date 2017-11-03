@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NetworkDataKafkaProcessor implements Processor<byte[], byte[]> {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    public static final Logger logger = LoggerFactory.getLogger(NetworkDataKafkaProcessor.class);
 
     private ProcessorContext context;
 

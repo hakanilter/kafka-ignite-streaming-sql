@@ -22,7 +22,7 @@ public class NetworkSignalIgniteRepository {
     private static final long WINDOW = 15;
     private final Duration duration = new Duration(TimeUnit.MINUTES, WINDOW); // 15 minutes window
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    public static final Logger logger = LoggerFactory.getLogger(NetworkSignalIgniteRepository.class);
 
     private IgniteRepository igniteRepository;
     private IgniteCache<String, NetworkSignalEntity> cache;

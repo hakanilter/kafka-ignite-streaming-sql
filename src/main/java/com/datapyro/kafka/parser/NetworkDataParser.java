@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 public class NetworkDataParser {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    public static final Logger logger = LoggerFactory.getLogger(NetworkDataParser.class);
 
     private Gson gson = new Gson();
 

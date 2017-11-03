@@ -20,7 +20,7 @@ public class NetworkDataProcessor implements Runnable {
         return new NetworkDataKafkaProcessor();
     }
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    public static final Logger logger = LoggerFactory.getLogger(NetworkDataProcessor.class);
 
     @Override
     public void run() {

@@ -19,7 +19,7 @@ public class RandomNetworkDataProducer implements Runnable {
 
     private static final long INCOMING_DATA_INTERVAL = 500;
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    public static final Logger logger = LoggerFactory.getLogger(RandomNetworkDataProducer.class);
 
     @Override
     public void run() {
