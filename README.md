@@ -58,7 +58,7 @@ The example runs 3 different aggregation queries:
 
 - Top 5 most data consuming devices
 
-    ```SELECT deviceId, SUM(rxData) AS rxTotal, SUM(txData) AS txTOTAL FROM NetworkSignalEntity " + "GROUP BY deviceId ORDER BY rxTotal DESC, txTotal DESC LIMIT 5```
+    ```SELECT deviceId, SUM(rxData) AS rxTotal, SUM(txData) AS txTOTAL FROM NetworkSignalEntity GROUP BY deviceId ORDER BY rxTotal DESC, txTotal DESC LIMIT 5```
     
     Example output:
     
