@@ -12,19 +12,19 @@ import org.slf4j.LoggerFactory;
 
 import javax.cache.expiry.CreatedExpiryPolicy;
 import javax.cache.expiry.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class NetworkSignalIgniteRepository {
 
     private static final String CACHE = "NetworkSignal";
-    private static final long WINDOW = 15;
-    private final Duration duration = new Duration(TimeUnit.MINUTES, WINDOW); // 15 minutes window
+    
+    private static final Duration DURATION = new Duration(TimeUnit.MINUTES, 15); // 15 minutes window
 
-    public static final Logger logger = LoggerFactory.getLogger(NetworkSignalIgniteRepository.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NetworkSignalIgniteRepository.class);
 
     private IgniteRepository igniteRepository;
+
     private IgniteCache<String, NetworkSignalEntity> cache;
 
     public NetworkSignalIgniteRepository() {
@@ -34,23 +34,19 @@ public class NetworkSignalIgniteRepository {
         cacheConfig.setCacheMode(CacheMode.REPLICATED);
         cacheConfig.setIndexedTypes(String.class, NetworkSignalEntity.class);
         this.cache = igniteRepository.getCache(cacheConfig)
-                                     .withExpiryPolicy(new CreatedExpiryPolicy(duration));
+                                     .withExpiryPolicy(new CreatedExpiryPolicy(DURATION));
     }
 
     public void save(NetworkSignalEntity entity) {
         cache.put(entity.getId(), entity);
-        logger.info("Saved in ignite: " + entity);
+        LOGGER.info("Saved in ignite: " + entity);
     }
 
     public List<List<?>> sqlQuery(String query) {
         SqlFieldsQuery sql = new SqlFieldsQuery(query);
-        List<List<?>> rows = new ArrayList<>();
         try (QueryCursor<List<?>> cursor = cache.query(sql)) {
-            for (List<?> row : cursor) {
-                rows.add(row);
-            }
+            return cursor.getAll();
         }
-        return rows;
     }
 
     public void close() {

@@ -18,11 +18,15 @@ import java.util.stream.Collectors;
  */
 public class NetworkDataParser {
 
-    public static final Logger logger = LoggerFactory.getLogger(NetworkDataParser.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NetworkDataParser.class);
 
     private Gson gson = new Gson();
 
-    private NetworkSignalValidator validator = new NetworkSignalValidator();
+    private NetworkSignalValidator validator;
+
+    public NetworkDataParser(NetworkSignalValidator validator) {
+        this.validator = validator;
+    }
 
     public List<NetworkSignalEntity> parse(String json) throws Exception {
         // parse incoming json
@@ -33,9 +37,9 @@ public class NetworkDataParser {
             return new ArrayList<>(0);
         }
         return networkData.getSignals().stream()
-                          .map(ns -> convert(networkData.getDeviceId(), ns))
-                          .map(e -> e.setId(generateUniqueId(e)))
-                          .filter(ns -> validator.isValid(ns))
+                          .map(networkSignal -> convert(networkData.getDeviceId(), networkSignal)) // convert objects
+                          .map(entity -> entity.setId(generateUniqueId(entity))) // add unique id
+                          .filter(entity -> validator.isValid(entity))
                           .collect(Collectors.toList());
     }
 
@@ -71,7 +75,7 @@ public class NetworkDataParser {
                     entity.getLatitude(),
                     entity.getLongitude());
         } catch (Exception e) {
-            logger.error("Error generating unique id", e);
+            LOGGER.error("Error generating unique id", e);
             return null;
         }
     }

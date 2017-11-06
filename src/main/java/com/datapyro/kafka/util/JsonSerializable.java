@@ -6,11 +6,11 @@ import java.io.Serializable;
 
 public abstract class JsonSerializable implements Serializable {
 
-    private static final Gson gson = new Gson();
+    private static final Gson GSON = new Gson();
 
     @Override
     public String toString() {
-        return gson.toJson(this);
+        return GSON.toJson(this);
     }
 
 }

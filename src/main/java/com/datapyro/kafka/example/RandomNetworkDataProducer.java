@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * This class initializes a Kafka Producer and produces random network data
@@ -19,11 +21,11 @@ public class RandomNetworkDataProducer implements Runnable {
 
     private static final long INCOMING_DATA_INTERVAL = 500;
 
-    public static final Logger logger = LoggerFactory.getLogger(RandomNetworkDataProducer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RandomNetworkDataProducer.class);
 
     @Override
     public void run() {
-        logger.info("Initializing kafka producer...");
+        LOGGER.info("Initializing kafka producer...");
 
         Properties properties = ConfigUtil.getConfig("network-data");
         properties.put("key.serializer", StringSerializer.class);
@@ -32,17 +34,16 @@ public class RandomNetworkDataProducer implements Runnable {
         properties.put("retries", 0);
 
         String topic = properties.getProperty("topic.names");
-        logger.info("Start producing random network data to topic: " + topic);
+        LOGGER.info("Start producing random network data to topic: " + topic);
 
         Producer<String, String> producer = new KafkaProducer<>(properties);
 
         Random random = new Random();
 
         final int deviceCount = 100;
-        List<String> deviceIds = new ArrayList<>();
-        for (int i = 0; i < deviceCount; i++) {
-            deviceIds.add(UUID.randomUUID().toString());
-        }
+        List<String> deviceIds = IntStream.range(0, deviceCount)
+                                          .mapToObj(i-> UUID.randomUUID().toString())
+                                          .collect(Collectors.toList());
 
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
             NetworkData networkData = new NetworkData();
@@ -63,8 +64,8 @@ public class RandomNetworkDataProducer implements Runnable {
             String key = "key-" + System.currentTimeMillis();
             String value = networkData.toString();
 
-            if (logger.isDebugEnabled()) {
-                logger.debug("Random data generated: " + key + ", " + value);
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Random data generated: " + key + ", " + value);
             }
 
             ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, value);

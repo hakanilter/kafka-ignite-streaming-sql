@@ -16,21 +16,21 @@ import java.util.Properties;
  */
 public class NetworkDataProcessor implements Runnable {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(NetworkDataProcessor.class);
+
     private static Processor<byte[], byte[]> getProcessor() {
         return new NetworkDataKafkaProcessor();
     }
 
-    public static final Logger logger = LoggerFactory.getLogger(NetworkDataProcessor.class);
-
     @Override
     public void run() {
-        logger.info("Initializing kafka processor...");
-        Properties properties = ConfigUtil.getConfig("network-data");
+        LOGGER.info("Initializing kafka processor...");
 
+        Properties properties = ConfigUtil.getConfig("network-data");
         String topics = properties.getProperty("topic.names");
         StreamsConfig config = new StreamsConfig(properties);
 
-        logger.info("Start listening topics: " + topics);
+        LOGGER.info("Start listening topics: " + topics);
 
         TopologyBuilder builder = new TopologyBuilder().addSource("SOURCE", topics.split(","))
                                                        .addProcessor("PROCESSOR", NetworkDataProcessor::getProcessor, "SOURCE");

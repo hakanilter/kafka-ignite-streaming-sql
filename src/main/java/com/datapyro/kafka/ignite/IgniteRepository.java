@@ -6,7 +6,7 @@ import org.apache.ignite.IgniteCache;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.configuration.CacheConfiguration;
 
-public class IgniteRepository {
+class IgniteRepository {
 
     private Ignite ignite;
 
@@ -16,10 +16,6 @@ public class IgniteRepository {
 
     void init() {
         ignite = Ignition.start(ConfigUtil.getResource("ignite.xml"));
-    }
-
-    IgniteCache getCache(String cacheName) {
-        return ignite.getOrCreateCache(cacheName);
     }
 
     IgniteCache getCache(CacheConfiguration config) {

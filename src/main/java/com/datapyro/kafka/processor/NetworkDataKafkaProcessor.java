@@ -2,6 +2,7 @@ package com.datapyro.kafka.processor;
 
 import com.datapyro.kafka.ignite.NetworkSignalIgniteRepository;
 import com.datapyro.kafka.parser.NetworkDataParser;
+import com.datapyro.kafka.validation.NetworkSignalValidator;
 import org.apache.kafka.streams.processor.Processor;
 import org.apache.kafka.streams.processor.ProcessorContext;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class NetworkDataKafkaProcessor implements Processor<byte[], byte[]> {
 
         networkSignalRepository = new NetworkSignalIgniteRepository();
 
-        parser = new NetworkDataParser();
+        parser = new NetworkDataParser(new NetworkSignalValidator());
     }
 
     @Override
